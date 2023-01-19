@@ -1,13 +1,39 @@
-plugins {
-    id 'eclipse'
-    id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven {
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+            content { includeGroup "org.spongepowered" }
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
 }
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'maven-publish'
+
+
+//plugins {
+//    id 'eclipse'
+//    id 'maven-publish'
+//    id 'net.minecraftforge.gradle' version '5.1.+'
+//    //id 'org.spongepowered.mixin'
+//}
 
 version = '0.0.1-1.19.3'
 group = 'net.iamaprogrammer.toggleableitemframes' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'toggleableitemframes'
 
+mixin {
+    add sourceSets.main, "toggleableitemframes.refmap.json"
+    config "toggleableitemframes.mixin.json"
+}
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -43,6 +69,7 @@ minecraft {
             // "REGISTRYDUMP": For getting the contents of all registries.
             property 'forge.logging.markers', 'REGISTRIES'
 
+
             // Recommended logging level for the console
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
@@ -66,6 +93,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             property 'forge.enabledGameTestNamespaces', 'toggleableitemframes'
+            arg "-mixin.config=toggleableitemframes.mixin.json"
 
             mods {
                 toggleableitemframes {
@@ -99,6 +127,7 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
 
             property 'forge.logging.console.level', 'debug'
+            args "-mixin.config=toggleableitemframes.mixins.json"
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', 'toggleableitemframes', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
@@ -130,7 +159,7 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.19.3-44.1.5'
-
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 
