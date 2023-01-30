@@ -40,7 +40,7 @@ public class ToggleableItemFramesEvents {
                     event.getTarget().setInvisible(!event.getTarget().isInvisible());
                     event.getTarget().getCapability(EntityInvisibleProvider.ENTITY_INVISIBLE).ifPresent(isCurrentlyInvisible -> {
                         isCurrentlyInvisible.setCurrentlyInvisible(event.getTarget().isInvisible());
-                        event.getEntity().sendSystemMessage(Component.literal("was changed to" + event.getTarget().isInvisible()));
+                        //event.getEntity().sendSystemMessage(Component.literal("was changed to" + event.getTarget().isInvisible()));
                     });
 
                     ((ItemFrame) event.getTarget()).setRotation(((ItemFrame) event.getTarget()).getRotation() - 1);
