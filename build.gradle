@@ -1,12 +1,31 @@
+buildscript {
+    repositories {
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        // MixinGradle:
+        classpath 'org.spongepowered:mixingradle:0.7.+'
+    }
+}
+
+
 plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
+apply plugin: 'org.spongepowered.mixin'
+
 version = '1.0.0-1.19.2-forge'
 group = 'net.iamaprogrammer.toggleableitemframes' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'toggleableitemframes'
+
+mixin {
+    // MixinGradle Settings
+    //add sourceSets.main, 'mixins.toggleableitemframes.refmap.json'
+    config 'mixins.toggleableitemframes.json'
+}
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -83,6 +102,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19.2-43.2.4'
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 jar {
