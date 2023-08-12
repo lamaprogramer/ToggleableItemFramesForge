@@ -1,3 +1,6 @@
+# !!FORGE ABANDONED!!
+### I've decided to be a Fabric-only developer, as I make mods as a hobby and I can't keep up with both mod loaders while still having fun. However, if anyone wants to continue development for the forge version, you may either make your own mod that credits mine, also feel free to use any of the code on my Github from this project
+
 ## This mod gives you the ability to change the visibility of item frames!
 
 All you have to do is sneak and right-click an item frame with an empty hand.
